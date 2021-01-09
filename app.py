@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
@@ -42,6 +42,13 @@ def get_pokemon_list():
 @app.route("/pokemon_list/<int:index>", methods=['GET'])
 def get_pokemon_by_index(index):
     return jsonify({"Pokemon": mock_list_db[index]})
+
+
+# http://127.0.0.1:5000/author?name=Ian
+@app.route("/author")
+def get_author():
+    name = request.args.get("name")
+    return jsonify({"data": name}), 200
 
 
 if __name__ == "__main__":

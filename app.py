@@ -16,32 +16,35 @@ mock_list_db = [
         "level": 32,
         "description": "A true rascal in nature.",
         "in_party": True
-    },
-    {
-        "pokemon_id": "2",
-        "name": "Poliwhirl",
-        "level": 28,
-        "description": "One of the best.",
-        "in_party": False
     }
 ]
 
 # http://127.0.0.1:5000/
-@app.route("/")
+@app.route("/", methods=['GET', 'POST'])
 def index():
-    return "Welcome to the API!"
+    if request.method == "POST":
+        json_received = request.get_json()
+        return jsonify({"JSON Sent": json_received}), 201
+    else:
+        return "Welcome to the API!", 200
+
+
+# http://127.0.0.1:5000/multiply/5
+@app.route("/multiply/<int:value>", methods=['GET'])
+def multiply_10(value):
+    return jsonify({"Result": value*10}), 200
 
 
 # http://127.0.0.1:5000/pokemon_list
 @app.route("/pokemon_list", methods=['GET'])
 def get_pokemon_list():
-    return jsonify({"Pokemon": mock_list_db})
+    return jsonify({"Pokemon": mock_list_db}), 200
 
 
 # http://127.0.0.1:5000/pokemon_list/0
 @app.route("/pokemon_list/<int:index>", methods=['GET'])
 def get_pokemon_by_index(index):
-    return jsonify({"Pokemon": mock_list_db[index]})
+    return jsonify({"Pokemon": mock_list_db[index]}), 200
 
 
 # http://127.0.0.1:5000/author?name=Ian

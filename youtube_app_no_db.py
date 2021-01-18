@@ -24,7 +24,7 @@ class Video(Resource):
     def get(self, video_id):
         abort_if_video_missing(video_id)
         return videos[video_id], 200
-    
+
     # How to do without reqparse
     # def put(self, video_id):
     #     print(request.form["likes"])
@@ -35,12 +35,12 @@ class Video(Resource):
         args = video_put_args.parse_args()
         videos[video_id] = args
         return videos[video_id], 201
-    
+
     def delete(self, video_id):
         abort_if_video_missing(video_id)
         del videos[video_id]
         return '', 204
-    
+
 
 api.add_resource(Video, "/video/<int:video_id>")
 

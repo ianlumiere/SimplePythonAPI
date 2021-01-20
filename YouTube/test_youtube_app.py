@@ -1,4 +1,6 @@
+from youtube_app import app
 import requests
+import unittest
 
 BASE = "http://127.0.0.1:5000/"
 
@@ -23,3 +25,20 @@ print(response.json())
 # Try a DELETE to change the name of video 0
 response = requests.delete(BASE+"video/2")
 print(response.status_code)
+
+def add_two_numbers(a, b):
+    return a + b
+
+class TestClass():
+    def test_add_two_numbers_pass(self):
+        assert add_two_numbers(5, 10) == 15
+    
+    def test_add_two_numbers_fail(self):
+        assert add_two_numbers(5, 10) != 10
+
+class FlaskTestCase(unittest.TestCase):
+    def test_get(self):
+        pass
+
+if __name__ == "__main__":
+    unittest.main()

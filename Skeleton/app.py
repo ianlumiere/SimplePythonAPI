@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, request
+import json
 
 app = Flask(__name__)
 
@@ -26,6 +27,15 @@ def index():
     else:
         return "Welcome to the API!", 200
 
+with app.test_client() as c:
+    rv = c.post('/', json={
+        "name": "Poliwhirl", "level": 28, "in_party": False
+    })
+    json_data = rv.get_json()
+    json_data = json.dumps(json_data, sort_keys=True)
+    expected_data = json.dumps({'JSON Sent': {'in_party': False, 'level': 28, 'name': 'Poliwhirl'}}, sort_keys=True)
+    assert json_data == expected_data
+
 
 # http://127.0.0.1:5000/pokemon_list
 @app.route("/pokemon_list", methods=['GET'])
@@ -52,8 +62,8 @@ def get_pokemon_by_index(index):
 
 
 # http://127.0.0.1:5000/multiply/5
-@app.route("/multiply/<int:value>", methods=['GET'])
-def multiply_10(value):
+@app.route("/multiply_ten/<int:value>", methods=['GET'])
+def multiply_ten(value):
     return jsonify({"Result": value*10}), 200
 
 
